@@ -1,0 +1,31 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  collation: utf8_general_ci
+  charset: utf8
+  pool: 5
+  reconnect: false
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  port: <%= ENV['DATABASE_PORT'] || '3306' %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+
+development:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] %>_development
+
+test:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] %>_test<%= ENV['TEST_ENV_NUMBER'] %>
+
+production:
+  <<: *default
+  reconnect: true
+  pool: 50
+  database: <%= ENV['DATABASE_NAME'] %>_production
+
+staging:
+  <<: *default
+  reconnect: true
+  pool: 10
+  database: <%= ENV['DATABASE_NAME'] %>_staging
